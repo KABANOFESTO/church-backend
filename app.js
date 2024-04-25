@@ -3,15 +3,12 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const { dbConnect } = require('./src/config/db.config');
+const dotenv = require('dotenv');
+dotenv.config();
+dbConnect()
 
 const usersRoutes = require('./src/routes/userRouter');
-
-
-mongoose.connect('mongodb+srv://kabanofesto1:' + process.env.MONGO_ATLAS_PW + '@church-db.qx6j7ab.mongodb.net/?retryWrites=true&w=majority&appName=church-db',
-    {
-        useMongoClient: true,
-    }
-);
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
