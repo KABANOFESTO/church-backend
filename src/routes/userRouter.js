@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-router.post('/signup', (req, res, next) => {
-    res.status(200).json({
-        message: 'Handling Signup users successfully'
-    });
+router.post('/signup', async(req, res, next) => {
+//    try{
+//     const validationResult,
+//    }
 });
 
 router.post('/login', (req, res, next) => {
