@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { createUserSchema } = require('../help/validation');
+const { createUserSchema, loginUserSchema } = require('../help/validation');
 
 const User = require('../models/userModel');
 
@@ -41,15 +41,34 @@ router.post('/signup', async (req, res, next) => {
         res.status(400).json({ "success": false, message: error.message })
     }
 });
+
+router.post('/login', async (req, res, next) => {
+    try {
+        const validationResult = await loginUserSchema.validateAsync(req.body);
+        const { email, password } = validationResult
+        const user = await User.findOne({ email })
+        if (user && (await bcrypt.compare(password, user.password))) {
+            res.json({
+                "success": true, user: {
+                    id: user._id,
+                    username: user.username,
+                    email: user.email,
+                    role: user.role,
+                    token: generateToken(user)
+                }
+            })
+        } else {
+            res.json({ "success": false, message: "Invalid credatial" }).status(400)
+        }
+    } catch (error) {
+        res.json({ "success": false, message: error }).status(400)
+    }
+
+})
+
 const generateToken = (id) => {
     return jwt.sign({ id }, "my-token-secret", { expiresIn: '30d' })
 }
-
-router.post('/login', (req, res, next) => {
-    res.status(200).json({
-        message: 'Handling login users successfully'
-    });
-});
 
 
 module.exports = router;
