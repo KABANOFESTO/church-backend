@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const { dbConnect } = require('./src/config/db.config');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -16,15 +15,16 @@ app.use(bodyParser.json());
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control',
+    res.header('Access-Control-Allow-Headers',
         'Origin,X-Requested-With,Content-Type,Accept,Authorization'
     );
     if (req.method == 'OPTIONS') {
         res.header('Access-Control-Allow-Methods', 'PUT,POST,PATCH,DELETE,GET');
         return res.status(200).json({});
     }
-    next(error);
+    next(); // Corrected to call next without passing an error
 });
+
 
 app.use('/users', usersRoutes);
 
