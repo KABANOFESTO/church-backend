@@ -8,7 +8,8 @@ dotenv.config();
 dbConnect()
 
 const usersRoutes = require('./src/routes/userRouter');
-const googleRouter=require('./src/routes/googleAuth');
+const googleRouter = require('./src/routes/googleAuth');
+const blogRouter = require('./src/routes/blogRouter');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -28,6 +29,7 @@ app.use((req, res, next) => {
 
 app.use('/users', usersRoutes);
 app.use('/google', googleRouter);
+app.use('/blog', blogRouter);
 
 app.use((req, res, next) => {
     const error = new Error('Not found');
