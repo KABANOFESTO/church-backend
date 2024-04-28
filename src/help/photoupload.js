@@ -13,3 +13,5 @@ const blogImage = async (req) => {
         console.log(error);
     }
 }
+
+module.exports = blogImage;
