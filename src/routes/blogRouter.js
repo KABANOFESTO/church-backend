@@ -13,11 +13,19 @@ var yyyy = today.getFullYear();
 today = dd + "/" + mm + "/" + yyyy
 
 
-blogRouter.get('/all', async (req, res) => {
+blogRouter.get('/all', (req, res) => {
     Blog.find()
         .then(result => {
             res.status(200).json(result)
         })
 });
+
+blogRouter.post('/add', async (req, res) => {
+    try {
+        const validationResult = await blogSchema.validateAsync(req.body);
+    } catch (error) {
+        res.status(500).json(console.error)
+    }
+})
 
 module.exports = blogRouter;
