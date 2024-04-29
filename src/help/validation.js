@@ -14,12 +14,12 @@ const blogSchema = joi.object({
     title: joi.string().min(10).required(),
     content: joi.string().min(20).required(),
 })
-const updateArticleSchema = joi.object({
+const updateBlogSchema = joi.object({
     blog_id: joi.string().required(),
     title: joi.string().min(10),
     content: joi.string().min(20)
 })
 
 module.exports = {
-    createUserSchema, loginUserSchema, blogSchema, updateArticleSchema
+    createUserSchema, loginUserSchema, blogSchema, updateBlogSchema
 }
