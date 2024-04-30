@@ -1,10 +1,11 @@
 const express = require('express');
 const messageRouter = express();
 
-const Message = require('../models/message');
 
-messageRouter.post('/sendMessage', async (req, res) => {
-// try{
+messageRouter.post('/sendMessage',)
 
-// }
-})
+messageRouter.get('/all',)
+
+messageRouter.delete('/delete/:id',)
+
+module.exports = messageRouter;
