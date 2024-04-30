@@ -20,7 +20,6 @@ blogRouter.get('/all', async (req, res) => {
 
 blogRouter.post('/add', passport.authenticate("jwt", { session: false }), async (req, res) => {
     try {
-
         const validationResult = await blogSchema.validateAsync(req.body);
 
         const user = await User.findOne({ _id: req.user.id }).exec();
@@ -35,8 +34,8 @@ blogRouter.post('/add', passport.authenticate("jwt", { session: false }), async 
             imageUrl: '',
         });
 
-        if (req.files && req.files.photo) {
-            const image = await imageUpload(req.files);
+        if (req.files) {
+            const image = await imageUpload(req);
             article.imageUrl = image.url;
         }
 
@@ -51,6 +50,7 @@ blogRouter.post('/add', passport.authenticate("jwt", { session: false }), async 
         }
     }
 });
+
 
 
 

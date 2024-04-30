@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+const { json } = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const { dbConnect } = require('./src/config/db.config');
@@ -15,7 +17,9 @@ const blogRouter = require('./src/routes/blogRouter');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(fileUploader({ useTempFiles: true }))
+app.use(fileUploader({ useTempFiles: true }));
+app.use(cors());
+app.use(json());
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
