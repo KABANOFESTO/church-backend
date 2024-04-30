@@ -3,6 +3,7 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const { dbConnect } = require('./src/config/db.config');
+const fileUploader = require('express-fileupload');
 const dotenv = require('dotenv');
 dotenv.config();
 dbConnect()
@@ -14,6 +15,7 @@ const blogRouter = require('./src/routes/blogRouter');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(fileUploader({ useTempFiles: true }))
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');

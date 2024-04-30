@@ -20,11 +20,12 @@ blogRouter.get('/all', async (req, res) => {
 
 blogRouter.post('/add', passport.authenticate("jwt", { session: false }), async (req, res) => {
     try {
-        const validationResult = await blogSchema.validateAsync(req.body);
-        const user = await User.findOne({ _id: req.user.id }).exec(); // Add .exec() to return a promise
 
+        const validationResult = await blogSchema.validateAsync(req.body);
+
+        const user = await User.findOne({ _id: req.user.id }).exec();
         if (!user || user.role !== 'admin') {
-            return res.status(401).json({ message: 'User not authorized' });
+            return res.status(401).json({ error: 'User not authorized' });
         }
 
         const article = new Blog({
@@ -34,17 +35,23 @@ blogRouter.post('/add', passport.authenticate("jwt", { session: false }), async 
             imageUrl: '',
         });
 
-        if (req.files) {
+        if (req.files && req.files.photo) {
             const image = await imageUpload(req.files);
             article.imageUrl = image.url;
         }
 
         const savedArticle = await article.save();
-        res.status(200).json(savedArticle); // Corrected status() method
+        res.status(201).json(savedArticle);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        if (error.isJoi) {
+            res.status(400).json({ error: error.details[0].message });
+        } else {
+            console.error('Error adding blog post:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
     }
 });
+
 
 
 blogRouter.patch('/update/:id', passport.authenticate("jwt", { session: false }), async (req, res) => {
