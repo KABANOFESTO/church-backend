@@ -6,6 +6,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const { dbConnect } = require('./src/config/db.config');
 const fileUploader = require('express-fileupload');
+const docsRouter = require('./src/swagger_documantation/index.docs');
+
 const dotenv = require('dotenv');
 dotenv.config();
 dbConnect()
@@ -38,6 +40,7 @@ app.use('/users', usersRoutes);
 // app.use('/google', googleRouter);
 app.use('/blog', blogRouter);
 app.use('/message', messageRouter);
+app.use('/api/docs', docsRouter);
 
 app.use((req, res, next) => {
     const error = new Error('Not found');
