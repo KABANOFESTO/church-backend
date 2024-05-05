@@ -20,7 +20,7 @@ exports.userSignup = async (req, res, next) => {
                 username: validationResult.username,
                 email: validationResult.email,
                 password: hashedPasswrd,
-                role: 'admin'
+                role: 'vistor'
             })
             user.save()
                 .then(user => res.status(201).json({
