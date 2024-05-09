@@ -63,6 +63,17 @@ exports.userLogin = async (req, res, next) => {
 
 }
 
+exports.getUsers = async (req, res) => {
+    try {
+        const users = await User.find();
+        res.status(200).json({ "success": true, users });
+    } catch (error) {
+        res.status(500).json({ "success": false, message: error.message });
+    }
+}
+
+
+
 const generateToken = (id) => {
     return jwt.sign({ id }, "my-token-secret", { expiresIn: '30d' })
 }
