@@ -8,7 +8,7 @@ require('../middleware/passport');
 
 blogRouter.get('/all', blogController.getAllBlog);
 
-blogRouter.post('/add', passport.authenticate("jwt", { session: false }), blogController.blogLikes);
+blogRouter.post('/add', passport.authenticate("jwt", { session: false }), blogController.createBlog);
 
 blogRouter.patch('/update/:id', passport.authenticate("jwt", { session: false }), blogController.updateBlog);
 
